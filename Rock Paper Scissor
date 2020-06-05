@@ -1,0 +1,14 @@
+import random
+lst = ["rock", "paper", "scissors", "rock"]
+while True:
+    p1 = input().lower()
+    p2 = lst[random.randint(0,2)]
+    if lst[lst.index(p1)+1] == p2:
+        print(f"Computer Has Wone!\n{p1} lost to {p2}")
+    elif p1 == p2:
+        print(f"Tie!\n{p1} = {p2}")
+    else:
+        print(f"Player Has won!\n{p1} won against {p2}")
+    check = input("Y/y to play again\n").lower()
+    if check != "y":
+        break
