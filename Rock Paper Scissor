@@ -1,14 +1,36 @@
 import random
+from tkinter import *
+from tkinter import messagebox
+
+
 lst = ["rock", "paper", "scissors", "rock"]
-while True:
-    p1 = input().lower()
-    p2 = lst[random.randint(0,2)]
-    if lst[lst.index(p1)+1] == p2:
-        print(f"Computer Has Wone!\n{p1} lost to {p2}")
+
+def game(str):
+    global lst
+    p1 = str
+    p2 = lst[random.randint(0, 2)]
+    if lst[lst.index(p1) + 1] == p2:
+        messagebox.showinfo("You Lost!", f"Computer Has Wone!\n{p1} lost to {p2}")
     elif p1 == p2:
-        print(f"Tie!\n{p1} = {p2}")
+        messagebox.showinfo("Tie!", f"Tie!\n{p1} = {p2}")
     else:
-        print(f"Player Has won!\n{p1} won against {p2}")
-    check = input("Y/y to play again\n").lower()
-    if check != "y":
-        break
+        messagebox.showinfo("YOU WON!", f"Player Has won!\n{p1} won against {p2}")
+
+
+root = Tk()
+
+lab1 = Label(root, text="Rock, Paper or Scissor?", padx=15)
+lab1.grid(row=0, column=0, columnspan=3)
+
+rock = Button(root, text="Rock", command= lambda: game(lst[0]))
+rock.grid(row=1, column=0)
+
+paper = Button(root, text="Paper", command= lambda: game(lst[1]))
+paper.grid(row=1, column=1)
+
+scissors = Button(root, text="Scissors", command= lambda: game(lst[2]))
+scissors.grid(row=1, column=2)
+
+root.mainloop()
+
+
