@@ -1,0 +1,32 @@
+import pytz
+import datetime
+from bs4 import BeautifulSoup
+import requests
+
+resp = requests.get("https://www.timeanddate.com/worldclock/bangladesh/dhaka")
+
+sp = BeautifulSoup(resp.text, "html5lib")
+
+ontime = sp.find("span", id="ct", class_="h1").text.split(":")
+
+lotime = datetime.datetime.today().time()
+lotime = lotime.strftime("%H:%M:%S").split(":")
+
+ot = int(ontime[0]) * 60 * 60 + int(ontime[1]) * 60 + int(ontime[2])
+lt = int(lotime[0]) * 60 * 60 + int(lotime[1]) * 60 + int(lotime[2])
+
+d1 = ot - lt
+if d1 == 0:
+    print("Local and Online time is same")
+    exit()
+
+d2 = abs(d1)
+hrs = d2 // 3600
+min = (d2 % 3600) // 60
+sec = ((d2 % 3600) % 60)
+print(f"Your local time is {hrs} hours {min} minutes {sec} seconds ", end="")
+
+if d1<0:
+    print("faster")
+else:
+    print("slower")
