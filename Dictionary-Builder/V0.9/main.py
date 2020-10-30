@@ -99,12 +99,12 @@ def translate():
             pass
     elif len(word1) == 0:
         try:
-            eword1.insert(0, rwordlist[word2[0]])
+            eword1.insert(0, rwordlist[word2][0])
         except:
             messagebox.showerror("Error!", "Word Not Found")
     else:
         try:
-            eword2.insert(0, wordlist[word1[0]])
+            eword2.insert(0, wordlist[word1][0])
         except:
             messagebox.showerror("Error!", "Word Not Found")
 
