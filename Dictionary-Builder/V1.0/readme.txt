@@ -12,4 +12,10 @@ Preexisting Features
 
 Added Features
 -The primary meaning method only worked with default "Language 1", now "Language 2" also has fixed primary meaning
--List of words ("Language 1") and meanings ("Language 2") can be now seen 
+-List of words language 1 and meanings language 2 can be now seen 
+
+Features planned to install
+-Delete or modify word meanings
+-Translate strings or documents 
+-To be able to change the Primary meaning for both language 1 and language 2
+-To be able to view word lists of language 1 and their meanings in language 2
