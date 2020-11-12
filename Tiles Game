@@ -1,0 +1,72 @@
+from tkinter import *
+import random
+import time
+
+def but_fun(event, score, lives):
+    global choose_cyan, choose_red, bind_no_cyan, bind_no_red, pre_cyan, pre_red, label_lives, label_score
+    but_list[choose_cyan].unbind("<Enter>", bind_no_cyan)
+    but_list[choose_cyan].config(bg = "SystemButtonFace")
+
+    but_list[choose_red].unbind("<Enter>", bind_no_red)
+    but_list[choose_red].config(bg="SystemButtonFace")
+
+    score_glob = score
+    lives_glob = lives
+
+    label_lives.config(text= "Lives: "+str(lives))
+    label_score.config(text= "Score: "+str(score))
+
+    choose_cyan, choose_red = map(int, random.sample([i for i in range(10) if i != pre_cyan], 2))
+
+    but_list[choose_cyan].config(bg="cyan")
+    bind_no_cyan = but_list[choose_cyan].bind("<Enter>", lambda eff: but_fun(eff, score_glob+1, lives_glob))
+
+    but_list[choose_red].config(bg="red")
+    bind_no_red = but_list[choose_red].bind("<Enter>", lambda eff: but_fun(eff, score_glob, lives_glob-1))
+
+    pre_cyan = choose_cyan
+    pre_red = choose_red
+
+
+root = Tk()
+
+
+
+but_list = []
+for i in range(10):
+    but_list.append(Button(root, text = i, padx=12))
+
+
+
+k = 1
+for i in range(3):
+    for j in range(3):
+        but_list[k].grid(row=i, column =j)
+        k += 1
+
+
+but_list[0].grid(row=3, column = 1)
+
+
+score_glob, lives_glob = 0, 3
+
+label_score = Label(root, text="Score: "+ str(score_glob))
+label_score.grid(row=5, column=0)
+
+label_lives = Label(root, text="Lives: "+ str(lives_glob))
+label_lives.grid(row=5, column=2)
+
+choose_cyan, choose_red = map(int, random.sample(range(10),2))
+but_list[choose_cyan].config(bg="cyan")
+bind_no_cyan = but_list[choose_cyan].bind("<Enter>", lambda eff: but_fun(eff, score_glob+1, lives_glob))
+
+but_list[choose_red].config(bg="red")
+bind_no_red = but_list[choose_red].bind("<Enter>", lambda eff: but_fun(eff, score_glob, lives_glob-1))
+
+pre_red, pre_cyan = choose_red, choose_cyan
+
+root.mainloop()
+
+
+
+
