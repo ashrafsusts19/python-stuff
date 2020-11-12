@@ -13,8 +13,14 @@ def but_fun(event, score, lives):
     score_glob = score
     lives_glob = lives
 
+
     label_lives.config(text= "Lives: "+str(lives))
     label_score.config(text= "Score: "+str(score))
+
+    if lives <= 0:
+        label_go = Label(root, text="Game Over!\nScore: "+str(score))
+        label_go.grid(row=2, column=0)
+        return
 
     choose_cyan, choose_red = map(int, random.sample([i for i in range(10) if i != pre_cyan], 2))
 
@@ -30,11 +36,12 @@ def but_fun(event, score, lives):
 
 root = Tk()
 
-
+fram_game = LabelFrame(root)
+fram_game.grid(row=0, column=0)
 
 but_list = []
 for i in range(10):
-    but_list.append(Button(root, text = i, padx=12))
+    but_list.append(Button(fram_game, text = i, padx=12))
 
 
 
@@ -48,13 +55,16 @@ for i in range(3):
 but_list[0].grid(row=3, column = 1)
 
 
-score_glob, lives_glob = 0, 3
+score_glob, lives_glob = 0, 6
 
-label_score = Label(root, text="Score: "+ str(score_glob))
-label_score.grid(row=5, column=0)
+fram_stat = LabelFrame(root)
+fram_stat.grid(row=1, column=0)
 
-label_lives = Label(root, text="Lives: "+ str(lives_glob))
-label_lives.grid(row=5, column=2)
+label_score = Label(fram_stat, text="Score: "+ str(score_glob))
+label_score.grid(row=0, column=0)
+
+label_lives = Label(fram_stat, text="Lives: "+ str(lives_glob))
+label_lives.grid(row=0, column=1)
 
 choose_cyan, choose_red = map(int, random.sample(range(10),2))
 but_list[choose_cyan].config(bg="cyan")
