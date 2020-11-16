@@ -1,0 +1,91 @@
+from tkinter import *
+import random
+import time
+
+
+def but_fun(event, score, lives):
+    global choose_cyan, choose_red, bind_no_cyan, bind_no_red, pre_cyan, pre_red, label_lives, label_score
+    global callback_fun
+
+    if callback_fun != None:
+        root.after_cancel(callback_fun)
+
+    but_list[choose_cyan].unbind("<Enter>", bind_no_cyan)
+    but_list[choose_cyan].config(bg = "SystemButtonFace")
+
+    but_list[choose_red].unbind("<Enter>", bind_no_red)
+    but_list[choose_red].config(bg="SystemButtonFace")
+
+    score_glob = score
+    lives_glob = lives
+
+
+    label_lives.config(text= "Lives: "+str(lives))
+    label_score.config(text= "Score: "+str(score))
+
+    if lives <= 0:
+        label_go = Label(root, text="Game Over!\nScore: "+str(score))
+        label_go.grid(row=2, column=0)
+        return
+
+    choose_cyan, choose_red = map(int, random.sample([i for i in range(10) if i != pre_cyan], 2))
+
+    but_list[choose_cyan].config(bg="cyan")
+    bind_no_cyan = but_list[choose_cyan].bind("<Enter>", lambda eff: but_fun(eff, score_glob+1, lives_glob))
+
+    but_list[choose_red].config(bg="red")
+    bind_no_red = but_list[choose_red].bind("<Enter>", lambda eff: but_fun(eff, score_glob, lives_glob-1))
+
+    pre_cyan = choose_cyan
+    pre_red = choose_red
+
+    t = int(2000 * (0.85**(score_glob//50)))
+    callback_fun = root.after(t, lambda: but_fun(None, score_glob, lives_glob-1))
+
+callback_fun = None
+
+root = Tk()
+
+fram_game = LabelFrame(root)
+fram_game.grid(row=0, column=0)
+
+but_list = []
+for i in range(10):
+    but_list.append(Button(fram_game, text = i, padx=12))
+
+
+
+k = 1
+for i in range(3):
+    for j in range(3):
+        but_list[k].grid(row=i, column =j)
+        k += 1
+
+
+but_list[0].grid(row=3, column = 1)
+
+
+score_glob, lives_glob = 0, 6
+
+fram_stat = LabelFrame(root)
+fram_stat.grid(row=1, column=0)
+
+label_score = Label(fram_stat, text="Score: "+ str(score_glob))
+label_score.grid(row=0, column=0)
+
+label_lives = Label(fram_stat, text="Lives: "+ str(lives_glob))
+label_lives.grid(row=0, column=1)
+
+choose_cyan, choose_red = map(int, random.sample(range(10),2))
+but_list[choose_cyan].config(bg="cyan")
+bind_no_cyan = but_list[choose_cyan].bind("<Enter>", lambda eff: but_fun(eff, score_glob+1, lives_glob))
+
+but_list[choose_red].config(bg="red")
+bind_no_red = but_list[choose_red].bind("<Enter>", lambda eff: but_fun(eff, score_glob, lives_glob-1))
+
+pre_red, pre_cyan = choose_red, choose_cyan
+
+root.mainloop()
+
+
+
