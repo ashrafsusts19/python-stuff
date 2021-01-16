@@ -1,6 +1,7 @@
 import pygame as pg
 import tkinter as tk
 from tkinter import messagebox
+import math
 
 pg.init()
 
@@ -25,12 +26,11 @@ but_rad.grid(row=1, column=0, columnspan=2)
 root.mainloop()
 
 sign = 1
-cir_x = 400 - cir_c
+cir_x = 400
 cir_y = sign * (cir_c**2 - (cir_x-400)**2) ** 0.5 + 300
-dx = 0.1
+dx = 0.1 * math.cos( math.atan((400-cir_x)/(cir_y-300)))
 
 def draw_path(x, y):
-    print(x, y)
     pg.draw.circle(screen, color = (155, 0, 0), center = (x, y), radius = 10)
 
 running = True
@@ -51,4 +51,6 @@ while running:
         cir_y = sign * (cir_c ** 2 - (cir_x - 400) ** 2) ** 0.5 + 300
         dx *= -1
         sign *= -1
+    else:
+        dx = sign * abs(0.1 * math.cos( math.atan((400-cir_x)/(cir_y-300))))
     pg.display.update()
