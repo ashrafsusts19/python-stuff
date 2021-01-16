@@ -1,0 +1,54 @@
+import pygame as pg
+import tkinter as tk
+from tkinter import messagebox
+
+pg.init()
+
+screen = pg.display.set_mode((800, 600))
+
+root = tk.Tk()
+
+def get_rad():
+    global cir_c
+    cir_c = int(ent_rad.get())
+    if cir_c <= 280:
+        root.destroy()
+    else:
+        messagebox.showerror("Error!", "Value must be withing 280")
+
+lab_rad = tk.Label(root, text = "Input Radius:")
+lab_rad.grid(row=0, column=0)
+ent_rad = tk.Entry(root)
+ent_rad.grid(row=0, column=1)
+but_rad = tk.Button(root, text="Ok", command = get_rad)
+but_rad.grid(row=1, column=0, columnspan=2)
+root.mainloop()
+
+sign = 1
+cir_x = 400 - cir_c
+cir_y = sign * (cir_c**2 - (cir_x-400)**2) ** 0.5 + 300
+dx = 0.1
+
+def draw_path(x, y):
+    print(x, y)
+    pg.draw.circle(screen, color = (155, 0, 0), center = (x, y), radius = 10)
+
+running = True
+
+while running:
+    for eve in pg.event.get():
+        if eve.type == pg.QUIT:
+            running = False
+    screen.fill("#200020")
+    draw_path(cir_x, cir_y)
+    cir_x = cir_x + dx
+    cir_y = sign * (cir_c ** 2 - (cir_x - 400) ** 2) ** 0.5 + 300
+    if cir_x >= 400 + cir_c or cir_x <= 400 - cir_c:
+        if cir_x > 400:
+            cir_x = 400 + cir_c
+        else:
+            cir_x = 400 - cir_c
+        cir_y = sign * (cir_c ** 2 - (cir_x - 400) ** 2) ** 0.5 + 300
+        dx *= -1
+        sign *= -1
+    pg.display.update()
