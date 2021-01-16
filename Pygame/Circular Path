@@ -9,7 +9,7 @@ screen = pg.display.set_mode((800, 600))
 
 root = tk.Tk()
 
-def get_rad():
+def get_rad(event):
     global cir_c
     cir_c = int(ent_rad.get())
     if cir_c <= 280:
@@ -21,8 +21,9 @@ lab_rad = tk.Label(root, text = "Input Radius:")
 lab_rad.grid(row=0, column=0)
 ent_rad = tk.Entry(root)
 ent_rad.grid(row=0, column=1)
-but_rad = tk.Button(root, text="Ok", command = get_rad)
+but_rad = tk.Button(root, text="Ok", command = lambda eff=None: get_rad(eff))
 but_rad.grid(row=1, column=0, columnspan=2)
+root.bind_all("<Return>", get_rad)
 root.mainloop()
 
 sign = 1
