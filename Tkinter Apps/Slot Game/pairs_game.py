@@ -19,7 +19,7 @@ def count(item):
 def select_slot(ind):
     global slot_index, slot_but, isselected, cb_reswap, tk_slot_images, game_score, game_tries
     global lb_tries, lb_score, lb_gameover, frame_score, matches_ind
-    if ind in matches_ind or cb_reswap is not None:
+    if ind in matches_ind or cb_reswap is not None or ind == isselected:
         return
     if isselected is None:
         isselected = ind
@@ -108,4 +108,3 @@ for i in range(64):
     slot_but[i].grid(row=i//8, column = i%8)
 
 root.mainloop()
-
