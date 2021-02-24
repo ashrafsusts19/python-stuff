@@ -3,6 +3,7 @@ import pygame as pg
 import random
 from copy import copy
 
+
 SCREENMAP = [[0 for _ in range(10)] for _ in range(20)]
 TYPES = ["i", "j", "l", "o", "s", "t", "z"]
 BLOCKS = {"i": [(-1,0), (1,0), (2,0)], "j":[(-1,-1), (-1, 0), (1,0)], "l": [(-1,0), (1, 0), (1,-1)],
@@ -19,6 +20,14 @@ class Blocks():
         self.x = len(SCREENMAP[0]) // 2 - 1
         self.y = -min([0] + [tup[1] for tup in self.shape])
         self.states = BSTATES[type]
+        self.maxl = max([0] + [abs(tup[0]) for tup in self.shape] + [abs(tup[1]) for tup in self.shape])
+
+    def checkshape(self, shape):
+        lx = min([0] + [tup[0] for tup in shape])
+        rx = max([0] + [tup[0] for tup in shape])
+        uy = min([0] + [tup[1] for tup in shape])
+        dy = max([0] + [tup[1] for tup in shape])
+        return (lx, rx, uy, dy)
 
     def draw(self, screen, sx, sy):
         pg.draw.rect(screen, "#0000ff", (sx+self.x*20+1, sy+self.y*20+1, 18, 18))
@@ -39,7 +48,6 @@ class Blocks():
             SCREENMAP[self.y+y][self.x+x] = 1
         SCREENMAP[self.y][self.x] = 1
 
-
     def avaibility(self, cx, cy, shape):
         try:
             SCREENMAP[cy][cx]
@@ -55,6 +63,15 @@ class Blocks():
                 return False
         return True
 
+    def alterrotate(self, rshape):
+        lx, rx, uy, dy = self.checkshape(rshape)
+        for dxy in range(self.maxl+1):
+            for (x, y) in [(dxy, 0), (-dxy, 0), (0, -dxy), (0, dxy)]:
+                if x >= lx and x <= rx and y >= uy and y <= dy:
+                    if self.avaibility(self.x - x, self.y - y, rshape):
+                        return (x, y)
+        return (None, None)
+
     def rotate(self):
         if self.cstate < self.states:
             rshape = [(y, -x) for (x, y) in self.shape]
@@ -62,16 +79,26 @@ class Blocks():
                 self.shape = copy(rshape)
                 self.cstate += 1
             else:
-                pass
+                x, y = self.alterrotate(rshape)
+                if x != None:
+                    self.x -= x
+                    self.y -= y
+                    self.shape = copy(rshape)
+                    self.cstate += 1
         else:
-            rshape = [(-y, x) for (x, y) in self.shape]
-            for _ in range(self.states-2):
+            rshape = copy(self.shape)
+            for _ in range(self.states-1):
                 rshape = [(-y, x) for (x, y) in rshape]
             if self.avaibility(self.x, self.y, rshape):
                 self.shape = copy(rshape)
                 self.cstate = 1
             else:
-                pass
+                x, y = self.alterrotate(rshape)
+                if x != None:
+                    self.x -= x
+                    self.y -= y
+                    self.shape = copy(rshape)
+                    self.cstate += 1
 
     def projecty(self):
         for yy in range(self.y, len(SCREENMAP)):
