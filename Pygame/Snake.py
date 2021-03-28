@@ -486,15 +486,20 @@ class GamePlay():
 
     def call_gameover(self):
         self.gameover = True
-        print(self.sup.records)
+        ishighscore = False
         for i in range(len(self.sup.records)):
             if self.sup.records[i] < self.score:
                 self.sup.records.insert(i, self.score)
                 self.sup.records.pop()
                 self.sup.saverecord()
+                ishighscore = True
                 break
-        print(self.sup.records)
-        self.gameover_text = f"Your Score: {self.score}"
+        if i == 0:
+            self.gameover_text = f"Snakemaster: {self.score}"
+        elif ishighscore:
+            self.gameover_text = f"High Score: {self.score}"
+        else:
+            self.gameover_text = f"Your Score: {self.score}"
 
     def move_available(self, dx, dy):
         if len(self.snakePos) == 1 or self.snakePos[-2] != (self.snakePos[-1][0] + dx, self.snakePos[-1][1] + dy):
@@ -538,8 +543,12 @@ class GamePlay():
         pg.draw.rect(self.gamecan, "#ff0000", (self.snakePos[-1][0] * 20 + 1, self.snakePos[-1][1] * 20 + 1, 18, 18))
         pg.draw.rect(self.gamecan, "#00ff00", (self.foodPos[0] * 20 + 5, self.foodPos[1] * 20 + 5, 10, 10))
         if self.superFoodPos is not None:
-            pg.draw.rect(self.gamecan, "#0000ff", (self.superFoodPos[0] * 20 + 5, self.superFoodPos[1] * 20 + 5,
+            if (self.superFoodTimer // 15) % 2 == 0:
+                pg.draw.rect(self.gamecan, "#0000ff", (self.superFoodPos[0] * 20 + 5, self.superFoodPos[1] * 20 + 5,
                                                    10, 10))
+            else:
+                pg.draw.rect(self.gamecan, "#0020ff", (self.superFoodPos[0] * 20 + 1, self.superFoodPos[1] * 20 + 1,
+                                                       18, 18))
         self.canvas.blit(self.gamecan, (0, 0))
         self.canvas.blit(self.statcan, (400, 0))
 
@@ -547,6 +556,9 @@ class GamePlay():
         self.statcan.fill("#000020")
         self.drawtext(self.statcan, f"Score: {self.score}", self.statcan.get_width()/2, self.statcan.get_height()/2)
         self.drawtext(self.statcan, f"{self.mapname}", self.statcan.get_width() / 2, 20)
+        if self.superFoodPos is not None:
+            tottime = 50 * self.framesPmove
+            pg.draw.rect(self.statcan, "#0020ff", (20, 100, 10, 200*self.superFoodTimer/tottime))
 
     def drawloop(self):
         if self.pause:
