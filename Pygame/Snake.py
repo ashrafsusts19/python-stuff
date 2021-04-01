@@ -421,14 +421,9 @@ class GamePlay():
     def move_next_position(self):
         nPos = ((self.snakePos[-1][0] + self.speed[0]) % self.cols,
                 (self.snakePos[-1][1] + self.speed[1]) % self.rows)
-        if self.lstMap[nPos[1]][nPos[0]] == 1 or (nPos in self.snakePos and len(self.snakePos) > 1):
+        if self.lstMap[nPos[1]][nPos[0]] == 1:
             self.call_gameover()
             return
-        self.snakePos.append(nPos)
-        for i in self.lstMapFree:
-            if i == nPos:
-                self.lstMapFree.remove(nPos)
-                break
         if self.superFoodPos is not None and nPos == self.superFoodPos:
             self.eat_super_food()
         if nPos == self.foodPos:
@@ -440,6 +435,14 @@ class GamePlay():
             if self.snakePos[0] not in self.lstMapFree:
                 self.lstMapFree.append(self.snakePos[0])
             self.snakePos.pop(0)
+        if nPos in self.snakePos:
+            self.call_gameover()
+            return
+        self.snakePos.append(nPos)
+        for i in self.lstMapFree:
+            if i == nPos:
+                self.lstMapFree.remove(nPos)
+                break
 
     def get_food_pos(self):
         if len(self.lstMapFree) == 0:
