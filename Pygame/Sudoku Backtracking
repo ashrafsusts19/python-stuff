@@ -100,9 +100,9 @@ class Game():
                 if result == True:
                     return True
                 self.board[ind // 9][ind % 9] = 0
-                pg.draw.rect(self.screen, self.color[ind % 2], (self.gX + (ind%9) * 40 + 1,
-                                                                self.gY + (ind//9) * 40 + 1, 38, 38))
-                pg.display.update()
+        pg.draw.rect(self.screen, self.color[ind % 2], (self.gX + (ind % 9) * 40 + 1,
+                                                        self.gY + (ind // 9) * 40 + 1, 38, 38))
+        pg.display.update()
         return False
 
     def aiWrite(self, num, ind):
