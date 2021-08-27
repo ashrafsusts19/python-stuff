@@ -126,8 +126,10 @@ class Game():
                         self.gridInput(int(eve.unicode))
                     if eve.key == pg.K_F1:
                         print("\n", self.board, "\n")
-                    if eve.key == pg.K_SPACE:
+                    elif eve.key == pg.K_SPACE:
+                        self.takingInput = False
                         self.backtrack(0)
+                        self.takingInput = True
             self.drawloop()
 
 pg.init()
