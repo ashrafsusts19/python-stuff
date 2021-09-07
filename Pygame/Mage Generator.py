@@ -102,6 +102,10 @@ class Game():
         path = path.split("/")
         for ind in path:
             pg.draw.circle(self.canvas, "#ffffff", ((int(ind)%20) * 20 + 10, (int(ind)//20) * 20 + 10), 3)
+        for i in range(len(path)-1):
+            s, e = int(path[i]), int(path[i+1])
+            pg.draw.line(self.canvas, "#ffffff", ((s%20) * 20 + 10, (s//20) * 20 + 10),
+                         ((e%20) * 20 + 10, (e//20) * 20 + 10), 1)
         self.isMage = False
 
 
