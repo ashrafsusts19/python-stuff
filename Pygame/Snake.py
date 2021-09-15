@@ -510,26 +510,27 @@ class GamePlay():
         return False
 
     def key_pressed(self, key):
-        if key == "UP" and (self.speed[1] == 0 or len(self.snakePos) == 1):
-            self.speed = (0, -1)
-            if self.sup.controlType == 0:
-                self.move_next_position()
-                self.movecounter = 0
-        elif key == "DOWN" and (self.speed[1] == 0 or len(self.snakePos) == 1):
-            self.speed = (0, 1)
-            if self.sup.controlType == 0:
-                self.move_next_position()
-                self.movecounter = 0
-        elif key == "LEFT" and (self.speed[0] == 0 or len(self.snakePos) == 1):
-            self.speed = (-1, 0)
-            if self.sup.controlType == 0:
-                self.move_next_position()
-                self.movecounter = 0
-        elif key == "RIGHT" and (self.speed[0] == 0 or len(self.snakePos) == 1):
-            self.speed = (1, 0)
-            if self.sup.controlType == 0:
-                self.move_next_position()
-                self.movecounter = 0
+        if not self.gameover:
+            if key == "UP" and (self.speed[1] == 0 or len(self.snakePos) == 1):
+                self.speed = (0, -1)
+                if self.sup.controlType == 0:
+                    self.move_next_position()
+                    self.movecounter = 0
+            elif key == "DOWN" and (self.speed[1] == 0 or len(self.snakePos) == 1):
+                self.speed = (0, 1)
+                if self.sup.controlType == 0:
+                    self.move_next_position()
+                    self.movecounter = 0
+            elif key == "LEFT" and (self.speed[0] == 0 or len(self.snakePos) == 1):
+                self.speed = (-1, 0)
+                if self.sup.controlType == 0:
+                    self.move_next_position()
+                    self.movecounter = 0
+            elif key == "RIGHT" and (self.speed[0] == 0 or len(self.snakePos) == 1):
+                self.speed = (1, 0)
+                if self.sup.controlType == 0:
+                    self.move_next_position()
+                    self.movecounter = 0
         if key == "BACKSPACE":
             self.sup.gobackward()
         if key == "SPACE":
