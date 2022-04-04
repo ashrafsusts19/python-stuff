@@ -30,9 +30,9 @@ class Blocks():
         return (lx, rx, uy, dy)
 
     def draw(self, screen, sx, sy):
-        pg.draw.rect(screen, "#0000ff", (sx+self.x*20+1, sy+self.y*20+1, 18, 18))
+        pg.draw.rect(screen, "#4a00a4", (sx+self.x*20+1, sy+self.y*20+1, 18, 18))
         for (x, y) in self.shape:
-            pg.draw.rect(screen, "#0000ff", (sx + (self.x+x) * 20 + 1, sy + (self.y+y) * 20 + 1, 18, 18))
+            pg.draw.rect(screen, "#4a00a4", (sx + (self.x+x) * 20 + 1, sy + (self.y+y) * 20 + 1, 18, 18))
 
     def move(self, dx, dy):
         if self.avaibility(self.x+dx, self.y+dy, self.shape):
@@ -108,9 +108,9 @@ class Blocks():
 
     def drawprojection(self, screen, sx, sy):
         proy = self.projecty()
-        pg.draw.rect(screen, "#0000ff", (sx + self.x * 20 + 1, sy + proy * 20 + 1, 18, 18), 1)
+        pg.draw.rect(screen, "#6200e3", (sx + self.x * 20 + 1, sy + proy * 20 + 1, 18, 18), 1)
         for (x, y) in self.shape:
-            pg.draw.rect(screen, "#0000ff", (sx + (self.x + x) * 20 + 1, sy + (proy + y) * 20 + 1, 18, 18), 1)
+            pg.draw.rect(screen, "#6200e3", (sx + (self.x + x) * 20 + 1, sy + (proy + y) * 20 + 1, 18, 18), 1)
 
     def smackdown(self):
         self.y = self.projecty()
@@ -132,11 +132,11 @@ class GameScreen(MiniScreen):
     level = 1
 
     def drawboard(self):
-        pg.draw.rect(self.screen, "#000000", (self.x, self.y, 20*self.cols, 20*self.rows))
+        pg.draw.rect(self.screen, "#190025", (self.x, self.y, 20*self.cols, 20*self.rows))
         for i in range(len(SCREENMAP)):
             for j in range(len(SCREENMAP[0])):
                 if SCREENMAP[i][j] != 0:
-                    pg.draw.rect(self.screen, "#0000ff", (self.x+j*20+1, self.y+i*20+1, 18, 18))
+                    pg.draw.rect(self.screen, "#4a00a4", (self.x+j*20+1, self.y+i*20+1, 18, 18))
 
     def checkscore(self):
         rowsclr = 0
@@ -151,7 +151,7 @@ class GameScreen(MiniScreen):
 
 class ScoreScreen(MiniScreen):
     def draw(self, score, font):
-        pg.draw.rect(self.screen, "#000000", (self.x, self.y, 20*self.cols, 20*self.rows))
+        pg.draw.rect(self.screen, "#190025", (self.x, self.y, 20*self.cols, 20*self.rows))
         scoretext = font.render("Score", 1, "#ffffff")
         scoretext2 = font.render(f"{score}", 1, "#ffffff")
         xst = self.x + self.cols * 10 - scoretext.get_width()/2
@@ -166,16 +166,16 @@ class NextScreen(MiniScreen):
         self.cx = cols//2
         self.cy = rows//2
     def draw(self, type):
-        pg.draw.rect(self.screen, "#000000", (self.x, self.y, 20 * self.cols, 20 * self.rows))
+        pg.draw.rect(self.screen, "#190025", (self.x, self.y, 20 * self.cols, 20 * self.rows))
         for (x, y) in BLOCKS[type]:
             xx = self.x + (self.cx + x) * 20 - 1
             yy = self.y + (self.cy + y) * 20 - 1
-            pg.draw.rect(self.screen, "#0000ff", (xx, yy, 18, 18))
-        pg.draw.rect(self.screen, "#0000ff", (self.x + self.cx * 20- 1, self.y + self.cy * 20 - 1, 18, 18))
+            pg.draw.rect(self.screen, "#4a00a4", (xx, yy, 18, 18))
+        pg.draw.rect(self.screen, "#4a00a4", (self.x + self.cx * 20- 1, self.y + self.cy * 20 - 1, 18, 18))
 
 
 def drawscreen():
-    screen.fill("#000020")
+    screen.fill("#311a30")
     game.drawboard()
     if gameover:
         screen.blit(txtgo, (225 - txtgo.get_width()/2, 460))
