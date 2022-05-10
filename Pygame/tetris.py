@@ -98,7 +98,7 @@ class Blocks():
                     self.x -= x
                     self.y -= y
                     self.shape = copy(rshape)
-                    self.cstate += 1
+                    self.cstate = 1
 
     def projecty(self):
         for yy in range(self.y, len(SCREENMAP)):
