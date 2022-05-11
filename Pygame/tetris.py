@@ -49,9 +49,7 @@ class Blocks():
         SCREENMAP[self.y][self.x] = 1
 
     def avaibility(self, cx, cy, shape):
-        try:
-            SCREENMAP[cy][cx]
-        except:
+        if not (0 <= cx < len(SCREENMAP[0])) or not (0 <= cy < len(SCREENMAP)):
             return False
         if SCREENMAP[cy][cx] != 0:
             return False
